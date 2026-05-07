@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Students Management · School Admin</title>
+  <!-- Bootstrap 5 + Icons (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- DataTables Bootstrap5 integration CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+  <!-- jQuery & DataTables -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <!-- Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  
+
+<link rel="stylesheet" href="assets/css/Student.css">
+</head>
+<body>
+  <div class="wrapper">
+    <!-- SIDEBAR (same as dashboard) -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <i class="bi bi-mortarboard-fill"></i> <span>EduSchool</span>
+      </div>
+      <ul class="nav flex-column w-100">
+        <li class="nav-item"><a href="AdminPanel1.html" class="nav-link"><i class="bi bi-speedometer2"></i> <span>Dashboard</span></a></li>
+        <li class="nav-item"><a href="Student.html" class="nav-link"><i class="bi bi-people-fill"></i> <span>Students</span></a></li>
+        <li class="nav-item"><a href="teacher.html" class="nav-link"><i class="bi bi-person-badge-fill"></i> <span>Teachers</span></a></li>
+        <li class="nav-item"><a href="class.html" class="nav-link"><i class="bi bi-book-half"></i> <span>Classes</span></a></li>
+        <li class="nav-item"><a href="subject.html" class="nav-link"><i class="bi bi-journal-bookmark-fill"></i> <span>Subjects</span></a></li>
+        <li class="nav-item"><a href="attendance.html" class="nav-link"><i class="bi bi-calendar-check-fill"></i> <span>Attendance</span></a></li>
+        <li class="nav-item"><a href="exam.html" class="nav-link"><i class="bi bi-pencil-square"></i> <span>Exams</span></a></li>
+        <li class="nav-item"><a href="fees.html" class="nav-link"><i class="bi bi-cash-stack"></i> <span>Fees</span></a></li>
+        <li class="nav-item"><a href="report.html" class="nav-link"><i class="bi bi-bar-chart-line-fill"></i> <span>Reports</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <!-- TOP NAVBAR with profile -->
+      <nav class="top-navbar">
+        <h2 class="page-title">Students Management</h2>
+        <div class="profile-area">
+          <div class="notification-badge">
+            <i class="bi bi-bell-fill"></i>
+            <span class="badge-number">3</span>
+          </div>
+          <div class="dropdown">
+            <div class="profile-dropdown dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="https://ui-avatars.com/api/?background=1f4885&color=fff&name=David+Lee&size=40" alt="profile">
+              <span>David Lee</span>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- PAGE CONTENT (Students Management) -->
+      <div class="content-area">
+        <!-- Page Header with Title, Breadcrumb & Add Button -->
+        <div class="page-header-card">
+          <div class="header-title">
+            <h2>Students</h2>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Students</li>
+              </ol>
+            </nav>
+          </div>
+          <button class="btn btn-add" data-bs-toggle="modal" data-bs-target="#addStudentModal"><i class="bi bi-plus-lg"></i> Add New Student</button>
+        </div>
+
+        <!-- Student List Table Card -->
+        <div class="table-card">
+          <h5><i class="bi bi-people-fill"></i> Student List</h5>
+          <div class="table-responsive">
+            <table id="studentsTable" class="table table-hover" style="width:100%">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Photo</th>
+                  <th>Name</th>
+                  <th>Class</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Gender</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- sample data (will be fully searchable/sortable) -->
+                <tr>
+                  <td>101</td>
+                  <td><img src="https://ui-avatars.com/api/?name=Olivia+Chen&size=40&background=2e5a9c&color=fff" class="student-photo" alt="photo"></td>
+                  <td>Olivia Chen</td>
+                  <td>5A</td>
+                  <td>olivia.c@school.edu</td>
+                  <td>+1 212-555-0102</td>
+                  <td>Female</td>
+                  <td><span class="status-badge">Active</span></td>
+                  <td>
+                    <button class="btn btn-action btn-view"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-action btn-edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-action btn-delete"><i class="bi bi-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>102</td>
+                  <td><img src="https://ui-avatars.com/api/?name=Liam+Johnson&size=40&background=2e5a9c&color=fff" class="student-photo" alt="photo"></td>
+                  <td>Liam Johnson</td>
+                  <td>5B</td>
+                  <td>liam.j@school.edu</td>
+                  <td>+1 212-555-0187</td>
+                  <td>Male</td>
+                  <td><span class="status-badge">Active</span></td>
+                  <td>
+                    <button class="btn btn-action btn-view"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-action btn-edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-action btn-delete"><i class="bi bi-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>103</td>
+                  <td><img src="https://ui-avatars.com/api/?name=Sophia+Martinez&size=40&background=2e5a9c&color=fff" class="student-photo" alt="photo"></td>
+                  <td>Sophia Martinez</td>
+                  <td>6A</td>
+                  <td>sophia.m@school.edu</td>
+                  <td>+1 212-555-0234</td>
+                  <td>Female</td>
+                  <td><span class="status-badge">Active</span></td>
+                  <td>
+                    <button class="btn btn-action btn-view"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-action btn-edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-action btn-delete"><i class="bi bi-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>104</td>
+                  <td><img src="https://ui-avatars.com/api/?name=Noah+Williams&size=40&background=2e5a9c&color=fff" class="student-photo" alt="photo"></td>
+                  <td>Noah Williams</td>
+                  <td>6C</td>
+                  <td>noah.w@school.edu</td>
+                  <td>+1 212-555-0456</td>
+                  <td>Male</td>
+                  <td><span class="status-badge inactive">Inactive</span></td>
+                  <td>
+                    <button class="btn btn-action btn-view"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-action btn-edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-action btn-delete"><i class="bi bi-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>105</td>
+                  <td><img src="https://ui-avatars.com/api/?name=Emma+Brown&size=40&background=2e5a9c&color=fff" class="student-photo" alt="photo"></td>
+                  <td>Emma Brown</td>
+                  <td>7B</td>
+                  <td>emma.b@school.edu</td>
+                  <td>+1 212-555-0678</td>
+                  <td>Female</td>
+                  <td><span class="status-badge">Active</span></td>
+                  <td>
+                    <button class="btn btn-action btn-view"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-action btn-edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-action btn-delete"><i class="bi bi-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>106</td>
+                  <td><img src="https://ui-avatars.com/api/?name=James+Davis&size=40&background=2e5a9c&color=fff" class="student-photo" alt="photo"></td>
+                  <td>James Davis</td>
+                  <td>7A</td>
+                  <td>james.d@school.edu</td>
+                  <td>+1 212-555-0821</td>
+                  <td>Male</td>
+                  <td><span class="status-badge">Active</span></td>
+                  <td>
+                    <button class="btn btn-action btn-view"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-action btn-edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-action btn-delete"><i class="bi bi-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>107</td>
+                  <td><img src="https://ui-avatars.com/api/?name=Mia+Garcia&size=40&background=2e5a9c&color=fff" class="student-photo" alt="photo"></td>
+                  <td>Mia Garcia</td>
+                  <td>8C</td>
+                  <td>mia.g@school.edu</td>
+                  <td>+1 212-555-0934</td>
+                  <td>Female</td>
+                  <td><span class="status-badge">Active</span></td>
+                  <td>
+                    <button class="btn btn-action btn-view"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-action btn-edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-action btn-delete"><i class="bi bi-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>108</td>
+                  <td><img src="https://ui-avatars.com/api/?name=Ethan+Miller&size=40&background=2e5a9c&color=fff" class="student-photo" alt="photo"></td>
+                  <td>Ethan Miller</td>
+                  <td>8A</td>
+                  <td>ethan.m@school.edu</td>
+                  <td>+1 212-555-1056</td>
+                  <td>Male</td>
+                  <td><span class="status-badge inactive">Inactive</span></td>
+                  <td>
+                    <button class="btn btn-action btn-view"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-action btn-edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-action btn-delete"><i class="bi bi-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>109</td>
+                  <td><img src="https://ui-avatars.com/api/?name=Amelia+Wilson&size=40&background=2e5a9c&color=fff" class="student-photo" alt="photo"></td>
+                  <td>Amelia Wilson</td>
+                  <td>9B</td>
+                  <td>amelia.w@school.edu</td>
+                  <td>+1 212-555-1178</td>
+                  <td>Female</td>
+                  <td><span class="status-badge">Active</span></td>
+                  <td>
+                    <button class="btn btn-action btn-view"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-action btn-edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-action btn-delete"><i class="bi bi-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>110</td>
+                  <td><img src="https://ui-avatars.com/api/?name=Lucas+Taylor&size=40&background=2e5a9c&color=fff" class="student-photo" alt="photo"></td>
+                  <td>Lucas Taylor</td>
+                  <td>9A</td>
+                  <td>lucas.t@school.edu</td>
+                  <td>+1 212-555-1290</td>
+                  <td>Male</td>
+                  <td><span class="status-badge">Active</span></td>
+                  <td>
+                    <button class="btn btn-action btn-view"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-action btn-edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-action btn-delete"><i class="bi bi-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ADD STUDENT MODAL (Bootstrap) -->
+  <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addStudentModalLabel"><i class="bi bi-person-plus-fill me-2"></i>Add New Student</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addStudentForm">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <label class="form-label">Student Name</label>
+                <input type="text" class="form-control" placeholder="Full name">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Father Name</label>
+                <input type="text" class="form-control" placeholder="Father's full name">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" placeholder="student@school.edu">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input type="tel" class="form-control" placeholder="+1 234 567 890">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Gender</label>
+                <select class="form-select">
+                  <option selected>Select gender</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-control">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Class</label>
+                <select class="form-select">
+                  <option selected>Select class</option>
+                  <option>5A</option><option>5B</option><option>6A</option><option>6B</option><option>7A</option>
+                  <option>7B</option><option>8A</option><option>8B</option><option>9A</option><option>9B</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Upload Photo</label>
+                <input type="file" class="form-control" accept="image/*">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Address</label>
+                <textarea class="form-control" rows="2" placeholder="Street, city, zip"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-save">Save Student</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Initialize DataTable -->
+  
+
+<script src="assets/js/Student.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduCore SMS — School Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="assets/css/loginUpdate.css">
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div class="login-page" id="loginPage">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="margin:0 auto 8px;display:block">
+        <rect width="48" height="48" rx="14" fill="#2d5016"/>
+        <path d="M12 34V18l12-8 12 8v16H28v-8h-8v8H12z" fill="white" opacity="0.9"/>
+        <path d="M21 26h6v8h-6z" fill="#2d5016"/>
+      </svg>
+      <h1>EduCore SMS</h1>
+      <p>School Management System</p>
+    </div>
+    <div class="role-tabs">
+      <div class="role-tab active" onclick="selectRole(this,'Admin')">Admin</div>
+      <div class="role-tab" onclick="selectRole(this,'Teacher')">Teacher</div>
+      <div class="role-tab" onclick="selectRole(this,'Student')">Student</div>
+    </div>
+    <div class="form-group" style="margin-bottom:14px">
+      <label>Email Address</label>
+      <input type="email" id="loginEmail" value="admin@school.edu" placeholder="Enter email">
+    </div>
+    <div class="form-group" style="margin-bottom:24px">
+      <label>Password</label>
+      <input type="password" id="loginPass" value="••••••••" placeholder="Enter password">
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px" onclick="doLogin()">Sign In to Dashboard</button>
+    <p style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted)">Forgot password? <a href="#" style="color:var(--accent)">Reset here</a></p>
+  </div>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- APP LAYOUT -->
+<div id="appLayout" style="display:none">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <h1>EduCore</h1>
+      <span>School Management</span>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">Main</div>
+      <div class="nav-item active" onclick="goto('dashboard',this)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-section">Academic</div>
+      <div class="nav-item" onclick="goto('students',this)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Students <span class="nav-badge">248</span>
+      </div>
+      <div class="nav-item" onclick="goto('teachers',this)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        Teachers
+      </div>
+      <div class="nav-item" onclick="goto('classes',this)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        Classes & Sections
+      </div>
+      <div class="nav-item" onclick="goto('attendance',this)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        Attendance
+      </div>
+      <div class="nav-section">Exams & Finance</div>
+      <div class="nav-item" onclick="goto('exams',this)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+        Exams & Results
+      </div>
+      <div class="nav-item" onclick="goto('fees',this)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        Fee Management
+      </div>
+      <div class="nav-section">Insights</div>
+      <div class="nav-item" onclick="goto('reports',this)">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+        Reports
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar">AD</div>
+        <div class="user-info">
+          <p id="sidebarName">Admin User</p>
+          <p id="sidebarRole">Administrator</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <header class="header">
+      <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+      <div class="header-title" id="pageTitle">Dashboard</div>
+      <div class="header-actions">
+        <div class="search-bar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" placeholder="Search students, teachers...">
+        </div>
+        <div class="notif-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><div class="notif-dot"></div></div>
+        <button class="btn btn-secondary" onclick="doLogout()" style="font-size:12px;padding:6px 12px">Logout</button>
+      </div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="grid grid-4" style="margin-bottom:20px">
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2d5016" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div class="stat-label">Total Students</div>
+          <div class="stat-num">248</div>
+          <div class="stat-trend"><span class="trend-up">↑ 12</span> new this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a3a6b" stroke-width="2"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+          </div>
+          <div class="stat-label">Teachers</div>
+          <div class="stat-num">32</div>
+          <div class="stat-trend"><span class="trend-up">↑ 3</span> this semester</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7a4f0d" stroke-width="2"><path d="M9 11l3 3L22 4"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+          </div>
+          <div class="stat-label">Attendance Today</div>
+          <div class="stat-num">91%</div>
+          <div class="stat-trend"><span class="trend-down">↓ 4</span> absent today</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8b3a1e" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <div class="stat-label">Fees Collected</div>
+          <div class="stat-num">Rs.1.2M</div>
+          <div class="stat-trend"><span class="trend-up">↑ 18%</span> vs last month</div>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="margin-bottom:20px">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Monthly Attendance</div>
+            <span class="badge badge-green">This Year</span>
+          </div>
+          <div class="chart-bar-wrap">
+            <div class="chart-bar-col"><div class="chart-bar" style="height:72%"></div><div class="chart-bar-label">Jan</div></div>
+            <div class="chart-bar-col"><div class="chart-bar" style="height:85%"></div><div class="chart-bar-label">Feb</div></div>
+            <div class="chart-bar-col"><div class="chart-bar" style="height:78%"></div><div class="chart-bar-label">Mar</div></div>
+            <div class="chart-bar-col"><div class="chart-bar" style="height:91%"></div><div class="chart-bar-label">Apr</div></div>
+            <div class="chart-bar-col"><div class="chart-bar blue" style="height:88%"></div><div class="chart-bar-label">May</div></div>
+            <div class="chart-bar-col"><div class="chart-bar" style="height:65%"></div><div class="chart-bar-label">Jun</div></div>
+            <div class="chart-bar-col"><div class="chart-bar" style="height:58%"></div><div class="chart-bar-label">Jul</div></div>
+            <div class="chart-bar-col"><div class="chart-bar" style="height:82%"></div><div class="chart-bar-label">Aug</div></div>
+            <div class="chart-bar-col"><div class="chart-bar" style="height:94%"></div><div class="chart-bar-label">Sep</div></div>
+            <div class="chart-bar-col"><div class="chart-bar" style="height:89%"></div><div class="chart-bar-label">Oct</div></div>
+            <div class="chart-bar-col"><div class="chart-bar" style="height:76%"></div><div class="chart-bar-label">Nov</div></div>
+            <div class="chart-bar-col"><div class="chart-bar" style="height:80%"></div><div class="chart-bar-label">Dec</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Class Performance</div></div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span>Class 10-A</span><span style="font-weight:500">86%</span></div><div class="progress"><div class="progress-bar" style="width:86%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span>Class 9-B</span><span style="font-weight:500">78%</span></div><div class="progress"><div class="progress-bar blue" style="width:78%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span>Class 8-C</span><span style="font-weight:500">72%</span></div><div class="progress"><div class="progress-bar amber" style="width:72%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span>Class 7-A</span><span style="font-weight:500">91%</span></div><div class="progress"><div class="progress-bar" style="width:91%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span>Class 6-B</span><span style="font-weight:500">68%</span></div><div class="progress"><div class="progress-bar red" style="width:68%"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Recent Activity</div></div>
+          <div class="activity-list">
+            <div class="activity-item"><div class="activity-dot" style="background:#16a34a"></div><div><div class="activity-text">Ahmed Ali enrolled in Class 10-A</div><div class="activity-time">2 hours ago</div></div></div>
+            <div class="activity-item"><div class="activity-dot" style="background:var(--blue)"></div><div><div class="activity-text">Mid-term exams scheduled for May 15</div><div class="activity-time">4 hours ago</div></div></div>
+            <div class="activity-item"><div class="activity-dot" style="background:#d97706"></div><div><div class="activity-text">Fee payment received from 12 students</div><div class="activity-time">Yesterday</div></div></div>
+            <div class="activity-item"><div class="activity-dot" style="background:#dc2626"></div><div><div class="activity-text">3 students marked absent — Class 9-B</div><div class="activity-time">Yesterday</div></div></div>
+            <div class="activity-item"><div class="activity-dot" style="background:var(--accent)"></div><div><div class="activity-text">Teacher Ms. Fatima joined Biology dept.</div><div class="activity-time">2 days ago</div></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Upcoming Events</div></div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;gap:14px;align-items:flex-start">
+              <div style="background:var(--accent-light);color:var(--accent);padding:6px 10px;border-radius:8px;text-align:center;min-width:44px"><div style="font-family:'Fraunces',serif;font-size:18px;font-weight:700">15</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.8px">May</div></div>
+              <div><div style="font-size:13px;font-weight:500">Mid-Term Examinations</div><div style="font-size:12px;color:var(--muted)">All classes — Exam Hall A & B</div></div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start">
+              <div style="background:var(--blue-light);color:var(--blue);padding:6px 10px;border-radius:8px;text-align:center;min-width:44px"><div style="font-family:'Fraunces',serif;font-size:18px;font-weight:700">20</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.8px">May</div></div>
+              <div><div style="font-size:13px;font-weight:500">Parent-Teacher Meeting</div><div style="font-size:12px;color:var(--muted)">4:00 PM — Main Auditorium</div></div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start">
+              <div style="background:var(--amber-light);color:var(--amber);padding:6px 10px;border-radius:8px;text-align:center;min-width:44px"><div style="font-family:'Fraunces',serif;font-size:18px;font-weight:700">01</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.8px">Jun</div></div>
+              <div><div style="font-size:13px;font-weight:500">Fee Submission Deadline</div><div style="font-size:12px;color:var(--muted)">Q2 fees due — Accounts Office</div></div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:flex-start">
+              <div style="background:var(--accent2-light);color:var(--accent2);padding:6px 10px;border-radius:8px;text-align:center;min-width:44px"><div style="font-family:'Fraunces',serif;font-size:18px;font-weight:700">10</div><div style="font-size:9px;text-transform:uppercase;letter-spacing:0.8px">Jun</div></div>
+              <div><div style="font-size:13px;font-weight:500">Annual Sports Day</div><div style="font-size:12px;color:var(--muted)">School Grounds — All day event</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STUDENTS -->
+    <div class="page" id="page-students">
+      <div class="card-header" style="margin-bottom:16px">
+        <div></div>
+        <button class="btn btn-primary" onclick="openModal('addStudentModal')">+ Add Student</button>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Student Registry</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <select style="padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg)"><option>All Classes</option><option>Class 10</option><option>Class 9</option><option>Class 8</option></select>
+            <select style="padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg)"><option>All Sections</option><option>Section A</option><option>Section B</option><option>Section C</option></select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Roll #</th><th>Name</th><th>Class</th><th>Section</th><th>Guardian</th><th>Contact</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="studentTable">
+              <tr><td>#2401</td><td><div style="font-weight:500">Ahmed Ali Khan</div></td><td>10</td><td>A</td><td>Ali Khan</td><td>0300-1234567</td><td><span class="badge badge-green">Active</span></td><td><button class="btn btn-secondary" style="padding:4px 10px;font-size:11px" onclick="openModal('viewStudentModal')">View</button></td></tr>
+              <tr><td>#2402</td><td><div style="font-weight:500">Sara Fatima</div></td><td>10</td><td>A</td><td>Fatima Bibi</td><td>0301-2345678</td><td><span class="badge badge-green">Active</span></td><td><button class="btn btn-secondary" style="padding:4px 10px;font-size:11px" onclick="openModal('viewStudentModal')">View</button></td></tr>
+              <tr><td>#2403</td><td><div style="font-weight:500">Hassan Raza</div></td><td>9</td><td>B</td><td>Raza Ahmed</td><td>0333-3456789</td><td><span class="badge badge-green">Active</span></td><td><button class="btn btn-secondary" style="padding:4px 10px;font-size:11px" onclick="openModal('viewStudentModal')">View</button></td></tr>
+              <tr><td>#2404</td><td><div style="font-weight:500">Ayesha Noor</div></td><td>9</td><td>A</td><td>Noor Hussain</td><td>0311-4567890</td><td><span class="badge badge-amber">Transfer</span></td><td><button class="btn btn-secondary" style="padding:4px 10px;font-size:11px" onclick="openModal('viewStudentModal')">View</button></td></tr>
+              <tr><td>#2405</td><td><div style="font-weight:500">Usman Tariq</div></td><td>8</td><td>C</td><td>Tariq Mahmood</td><td>0345-5678901</td><td><span class="badge badge-red">Inactive</span></td><td><button class="btn btn-secondary" style="padding:4px 10px;font-size:11px" onclick="openModal('viewStudentModal')">View</button></td></tr>
+              <tr><td>#2406</td><td><div style="font-weight:500">Zara Malik</div></td><td>8</td><td>B</td><td>Malik Irfan</td><td>0321-6789012</td><td><span class="badge badge-green">Active</span></td><td><button class="btn btn-secondary" style="padding:4px 10px;font-size:11px" onclick="openModal('viewStudentModal')">View</button></td></tr>
+              <tr><td>#2407</td><td><div style="font-weight:500">Ibrahim Shah</div></td><td>7</td><td>A</td><td>Shah Nawaz</td><td>0315-7890123</td><td><span class="badge badge-green">Active</span></td><td><button class="btn btn-secondary" style="padding:4px 10px;font-size:11px" onclick="openModal('viewStudentModal')">View</button></td></tr>
+              <tr><td>#2408</td><td><div style="font-weight:500">Amna Khalid</div></td><td>7</td><td>B</td><td>Khalid Mehmood</td><td>0312-8901234</td><td><span class="badge badge-green">Active</span></td><td><button class="btn btn-secondary" style="padding:4px 10px;font-size:11px" onclick="openModal('viewStudentModal')">View</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-size:13px;color:var(--muted)">
+          <span>Showing 8 of 248 students</span>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-secondary" style="padding:5px 10px;font-size:12px">← Prev</button>
+            <button class="btn btn-primary" style="padding:5px 10px;font-size:12px">1</button>
+            <button class="btn btn-secondary" style="padding:5px 10px;font-size:12px">2</button>
+            <button class="btn btn-secondary" style="padding:5px 10px;font-size:12px">3</button>
+            <button class="btn btn-secondary" style="padding:5px 10px;font-size:12px">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEACHERS -->
+    <div class="page" id="page-teachers">
+      <div class="card-header" style="margin-bottom:16px"><div></div><button class="btn btn-primary" onclick="openModal('addStudentModal')">+ Add Teacher</button></div>
+      <div class="grid grid-3" style="margin-bottom:20px">
+        <div class="card" style="padding:16px">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;color:var(--accent)">MF</div>
+            <div><div style="font-weight:500;font-size:14px">Ms. Fatima Malik</div><div style="font-size:12px;color:var(--muted)">Biology</div></div>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Classes: 10-A, 9-B, 8-C</div>
+          <div style="display:flex;gap:6px"><span class="badge badge-green">Active</span><span class="badge badge-blue">7 yrs exp</span></div>
+        </div>
+        <div class="card" style="padding:16px">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;color:var(--blue)">MR</div>
+            <div><div style="font-weight:500;font-size:14px">Mr. Rashid Ahmed</div><div style="font-size:12px;color:var(--muted)">Mathematics</div></div>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Classes: 10-A, 10-B, 9-A</div>
+          <div style="display:flex;gap:6px"><span class="badge badge-green">Active</span><span class="badge badge-blue">12 yrs exp</span></div>
+        </div>
+        <div class="card" style="padding:16px">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--amber-light);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;color:var(--amber)">SI</div>
+            <div><div style="font-weight:500;font-size:14px">Ms. Sara Iqbal</div><div style="font-size:12px;color:var(--muted)">English</div></div>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Classes: 9-A, 8-B, 7-A</div>
+          <div style="display:flex;gap:6px"><span class="badge badge-green">Active</span><span class="badge badge-blue">5 yrs exp</span></div>
+        </div>
+        <div class="card" style="padding:16px">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--accent2-light);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;color:var(--accent2)">KH</div>
+            <div><div style="font-weight:500;font-size:14px">Mr. Kamran Hussain</div><div style="font-size:12px;color:var(--muted)">Physics</div></div>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Classes: 10-A, 10-B</div>
+          <div style="display:flex;gap:6px"><span class="badge badge-green">Active</span><span class="badge badge-blue">9 yrs exp</span></div>
+        </div>
+        <div class="card" style="padding:16px">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;color:var(--accent)">NB</div>
+            <div><div style="font-weight:500;font-size:14px">Ms. Nadia Baig</div><div style="font-size:12px;color:var(--muted)">Chemistry</div></div>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Classes: 10-A, 9-A, 9-B</div>
+          <div style="display:flex;gap:6px"><span class="badge badge-amber">On Leave</span><span class="badge badge-blue">4 yrs exp</span></div>
+        </div>
+        <div class="card" style="padding:16px;display:flex;align-items:center;justify-content:center;border-style:dashed;cursor:pointer" onclick="openModal('addStudentModal')">
+          <div style="text-align:center;color:var(--muted)">
+            <div style="font-size:28px;margin-bottom:6px">+</div>
+            <div style="font-size:13px">Add New Teacher</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLASSES -->
+    <div class="page" id="page-classes">
+      <div class="grid grid-3" style="margin-bottom:20px">
+        <div class="card">
+          <div style="font-family:'Fraunces',serif;font-size:28px;font-weight:700;color:var(--accent)">Class 10</div>
+          <div style="font-size:13px;color:var(--muted);margin:8px 0 14px">3 Sections · 72 Students</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 12px;border-radius:8px"><span style="font-size:13px">Section A</span><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--muted)">28 students</span><span class="badge badge-green">Active</span></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 12px;border-radius:8px"><span style="font-size:13px">Section B</span><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--muted)">24 students</span><span class="badge badge-green">Active</span></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 12px;border-radius:8px"><span style="font-size:13px">Section C</span><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--muted)">20 students</span><span class="badge badge-green">Active</span></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-family:'Fraunces',serif;font-size:28px;font-weight:700;color:var(--blue)">Class 9</div>
+          <div style="font-size:13px;color:var(--muted);margin:8px 0 14px">2 Sections · 56 Students</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 12px;border-radius:8px"><span style="font-size:13px">Section A</span><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--muted)">30 students</span><span class="badge badge-green">Active</span></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 12px;border-radius:8px"><span style="font-size:13px">Section B</span><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--muted)">26 students</span><span class="badge badge-green">Active</span></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-family:'Fraunces',serif;font-size:28px;font-weight:700;color:var(--amber)">Class 8</div>
+          <div style="font-size:13px;color:var(--muted);margin:8px 0 14px">3 Sections · 68 Students</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 12px;border-radius:8px"><span style="font-size:13px">Section A</span><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--muted)">24 students</span><span class="badge badge-green">Active</span></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 12px;border-radius:8px"><span style="font-size:13px">Section B</span><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--muted)">22 students</span><span class="badge badge-green">Active</span></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg);padding:8px 12px;border-radius:8px"><span style="font-size:13px">Section C</span><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--muted)">22 students</span><span class="badge badge-green">Active</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ATTENDANCE -->
+    <div class="page" id="page-attendance">
+      <div class="card" style="margin-bottom:16px">
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">
+          <div class="form-group" style="flex:1;min-width:160px"><label>Class</label><select><option>Class 10</option><option>Class 9</option><option>Class 8</option></select></div>
+          <div class="form-group" style="flex:1;min-width:120px"><label>Section</label><select><option>Section A</option><option>Section B</option></select></div>
+          <div class="form-group" style="flex:1;min-width:140px"><label>Date</label><input type="date" value="2025-05-04"></div>
+          <button class="btn btn-primary">Load Students</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Attendance — Class 10-A · May 4, 2025</div>
+          <div style="display:flex;gap:8px">
+            <span class="badge badge-green" id="presentCount">Present: 20</span>
+            <span class="badge badge-red" id="absentCount">Absent: 5</span>
+            <span class="badge badge-amber" id="lateCount">Late: 3</span>
+          </div>
+        </div>
+        <div class="att-grid" id="attGrid"></div>
+        <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="saveAttendance()">Save Attendance</button>
+          <button class="btn btn-secondary">Mark All Present</button>
+          <button class="btn btn-secondary">Export CSV</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMS -->
+    <div class="page" id="page-exams">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab(this,'examList')">Exams</div>
+        <div class="tab" onclick="switchTab(this,'resultEntry')">Enter Results</div>
+        <div class="tab" onclick="switchTab(this,'resultView')">View Results</div>
+      </div>
+      <div id="examList">
+        <div class="card-header" style="margin-bottom:16px"><div></div><button class="btn btn-primary">+ Schedule Exam</button></div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Exam Name</th><th>Class</th><th>Subject</th><th>Date</th><th>Total Marks</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td><b>Mid-Term Exam</b></td><td>All Classes</td><td>All Subjects</td><td>May 15, 2025</td><td>100</td><td><span class="badge badge-amber">Upcoming</span></td></tr>
+                <tr><td><b>Unit Test 2</b></td><td>Class 10</td><td>Mathematics</td><td>Apr 28, 2025</td><td>50</td><td><span class="badge badge-green">Completed</span></td></tr>
+                <tr><td><b>Unit Test 1</b></td><td>Class 9</td><td>Physics</td><td>Apr 20, 2025</td><td>50</td><td><span class="badge badge-green">Completed</span></td></tr>
+                <tr><td><b>Annual Exam 2024</b></td><td>All Classes</td><td>All Subjects</td><td>Nov 10, 2024</td><td>100</td><td><span class="badge badge-blue">Archived</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="resultEntry" style="display:none">
+        <div class="card" style="margin-bottom:16px">
+          <div class="form-grid">
+            <div class="form-group"><label>Exam</label><select><option>Unit Test 2 — Mathematics</option></select></div>
+            <div class="form-group"><label>Class</label><select><option>Class 10-A</option></select></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Roll #</th><th>Student Name</th><th>Marks Obtained</th><th>Total</th><th>Grade</th></tr></thead>
+              <tbody>
+                <tr><td>#2401</td><td>Ahmed Ali Khan</td><td><input type="number" style="width:70px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px" value="43"></td><td>50</td><td><span class="badge badge-green">A</span></td></tr>
+                <tr><td>#2402</td><td>Sara Fatima</td><td><input type="number" style="width:70px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px" value="48"></td><td>50</td><td><span class="badge badge-green">A+</span></td></tr>
+                <tr><td>#2403</td><td>Hassan Raza</td><td><input type="number" style="width:70px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px" value="35"></td><td>50</td><td><span class="badge badge-blue">B</span></td></tr>
+                <tr><td>#2404</td><td>Ayesha Noor</td><td><input type="number" style="width:70px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px" value="29"></td><td>50</td><td><span class="badge badge-amber">C</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top:14px"><button class="btn btn-primary">Save Results</button></div>
+        </div>
+      </div>
+      <div id="resultView" style="display:none">
+        <div class="grid grid-4" style="margin-bottom:16px">
+          <div class="stat-card"><div class="stat-label">Class Average</div><div class="stat-num" style="font-size:28px">74%</div></div>
+          <div class="stat-card"><div class="stat-label">Highest Score</div><div class="stat-num" style="font-size:28px">98%</div></div>
+          <div class="stat-card"><div class="stat-label">Pass Rate</div><div class="stat-num" style="font-size:28px">92%</div></div>
+          <div class="stat-card"><div class="stat-label">Failed</div><div class="stat-num" style="font-size:28px;color:#dc2626">8%</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEES -->
+    <div class="page" id="page-fees">
+      <div class="grid grid-4" style="margin-bottom:20px">
+        <div class="stat-card"><div class="stat-label">Total Due</div><div class="stat-num" style="font-size:26px">Rs.1.8M</div></div>
+        <div class="stat-card"><div class="stat-label">Collected</div><div class="stat-num" style="font-size:26px;color:#16a34a">Rs.1.2M</div></div>
+        <div class="stat-card"><div class="stat-label">Pending</div><div class="stat-num" style="font-size:26px;color:#dc2626">Rs.600K</div></div>
+        <div class="stat-card"><div class="stat-label">Defaulters</div><div class="stat-num" style="font-size:26px;color:#d97706">24</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Fee Records</div>
+          <button class="btn btn-primary" onclick="openModal('addStudentModal')">+ Record Payment</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Student</th><th>Class</th><th>Fee Type</th><th>Amount</th><th>Due Date</th><th>Paid Date</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><b>Ahmed Ali Khan</b></td><td>10-A</td><td>Monthly</td><td>Rs.3,500</td><td>May 5</td><td>May 2</td><td><span class="badge badge-green">Paid</span></td></tr>
+              <tr><td><b>Sara Fatima</b></td><td>10-A</td><td>Monthly</td><td>Rs.3,500</td><td>May 5</td><td>—</td><td><span class="badge badge-amber">Pending</span></td></tr>
+              <tr><td><b>Hassan Raza</b></td><td>9-B</td><td>Monthly</td><td>Rs.3,200</td><td>Apr 30</td><td>—</td><td><span class="badge badge-red">Overdue</span></td></tr>
+              <tr><td><b>Ayesha Noor</b></td><td>9-A</td><td>Exam Fee</td><td>Rs.500</td><td>May 10</td><td>May 3</td><td><span class="badge badge-green">Paid</span></td></tr>
+              <tr><td><b>Usman Tariq</b></td><td>8-C</td><td>Monthly</td><td>Rs.3,000</td><td>Apr 30</td><td>—</td><td><span class="badge badge-red">Overdue</span></td></tr>
+              <tr><td><b>Zara Malik</b></td><td>8-B</td><td>Annual</td><td>Rs.36,000</td><td>Jun 1</td><td>—</td><td><span class="badge badge-blue">Upcoming</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPORTS -->
+    <div class="page" id="page-reports">
+      <div class="grid grid-4" style="margin-bottom:20px">
+        <div class="stat-card gauge-wrap"><div class="stat-label">Avg Attendance</div><div class="gauge-num" style="color:var(--accent)">89%</div></div>
+        <div class="stat-card gauge-wrap"><div class="stat-label">Pass Rate</div><div class="gauge-num" style="color:var(--blue)">92%</div></div>
+        <div class="stat-card gauge-wrap"><div class="stat-label">Fee Collection</div><div class="gauge-num" style="color:#d97706">67%</div></div>
+        <div class="stat-card gauge-wrap"><div class="stat-label">Teacher Satisfaction</div><div class="gauge-num" style="color:#16a34a">4.2/5</div></div>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Subject-wise Performance</div></div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Mathematics</span><span style="font-weight:500">82%</span></div><div class="progress"><div class="progress-bar blue" style="width:82%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>English</span><span style="font-weight:500">88%</span></div><div class="progress"><div class="progress-bar" style="width:88%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Physics</span><span style="font-weight:500">74%</span></div><div class="progress"><div class="progress-bar amber" style="width:74%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Chemistry</span><span style="font-weight:500">71%</span></div><div class="progress"><div class="progress-bar amber" style="width:71%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Biology</span><span style="font-weight:500">79%</span></div><div class="progress"><div class="progress-bar" style="width:79%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Urdu</span><span style="font-weight:500">91%</span></div><div class="progress"><div class="progress-bar" style="width:91%"></div></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Export Reports</div></div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <button class="btn btn-secondary" style="justify-content:flex-start;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Student Progress Report</button>
+            <button class="btn btn-secondary" style="justify-content:flex-start;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Monthly Attendance Sheet</button>
+            <button class="btn btn-secondary" style="justify-content:flex-start;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Fee Collection Summary</button>
+            <button class="btn btn-secondary" style="justify-content:flex-start;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Exam Results Tabulation</button>
+            <button class="btn btn-secondary" style="justify-content:flex-start;gap:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg> Teacher Performance Report</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="addStudentModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add New Student</div>
+      <div class="modal-close" onclick="closeModal('addStudentModal')">✕</div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Full Name</label><input placeholder="e.g. Ahmed Ali Khan"></div>
+      <div class="form-group"><label>Date of Birth</label><input type="date"></div>
+      <div class="form-group"><label>Class</label><select><option>Class 10</option><option>Class 9</option><option>Class 8</option><option>Class 7</option><option>Class 6</option></select></div>
+      <div class="form-group"><label>Section</label><select><option>Section A</option><option>Section B</option><option>Section C</option></select></div>
+      <div class="form-group"><label>Guardian Name</label><input placeholder="Parent/Guardian"></div>
+      <div class="form-group"><label>Contact Number</label><input placeholder="0300-0000000"></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Address</label><textarea rows="2" placeholder="Home address"></textarea></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
+      <button class="btn btn-secondary" onclick="closeModal('addStudentModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('addStudentModal')">Save Student</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="viewStudentModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Student Profile</div>
+      <div class="modal-close" onclick="closeModal('viewStudentModal')">✕</div>
+    </div>
+    <div style="display:flex;gap:16px;align-items:center;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)">
+      <div style="width:60px;height:60px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:20px;color:var(--accent)">AA</div>
+      <div><div style="font-size:18px;font-family:'Fraunces',serif;font-weight:600">Ahmed Ali Khan</div><div style="color:var(--muted);font-size:13px">Roll #2401 · Class 10-A</div></div>
+      <span class="badge badge-green" style="margin-left:auto">Active</span>
+    </div>
+    <div class="grid grid-2" style="gap:10px">
+      <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:3px">Guardian</div><div style="font-size:14px">Ali Khan</div></div>
+      <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:3px">Contact</div><div style="font-size:14px">0300-1234567</div></div>
+      <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:3px">Attendance</div><div style="font-size:14px;color:#16a34a;font-weight:500">94%</div></div>
+      <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:3px">Last Result</div><div style="font-size:14px;font-weight:500">86% — Unit Test 2</div></div>
+      <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:3px">Fee Status</div><div style="font-size:14px;color:#16a34a;font-weight:500">Paid (May 2025)</div></div>
+      <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin-bottom:3px">Enrolled Since</div><div style="font-size:14px">Jan 2022</div></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button class="btn btn-secondary" style="flex:1">Edit Profile</button>
+      <button class="btn btn-primary" style="flex:1">View Full Report</button>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="assets/js/loginUpdate.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
